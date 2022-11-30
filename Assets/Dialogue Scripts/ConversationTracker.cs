@@ -46,6 +46,7 @@ namespace Dialogue_Scripts
         // NPC dialogue
         [SerializeField] private string[] NPCDialogue;
         private int NPCSequenceTracker = 0;
+        int activePlayer = 1;
 
         public void StartInfoSequence()
         {
@@ -95,8 +96,8 @@ namespace Dialogue_Scripts
         
             if (InfoSequence1[InfoSequence1.Length-1] == "Players")
             {
-                LoadPlayerContent(player1panel, P1Choices1.Length, P1Choices1);
-                LoadPlayerContent(player2panel, P2Choices1.Length, P2Choices1);
+                // LoadPlayerContent(player1panel, P1Choices1.Length, P1Choices1);
+                // LoadPlayerContent(player2panel, P2Choices1.Length, P2Choices1);
             }
         
             if (InfoSequence1[InfoSequence1.Length-1] == "NPC")
@@ -120,21 +121,22 @@ namespace Dialogue_Scripts
                 NPCSequenceTracker += 1;
             
                 // load first player options
-                CreateDialogueOptions(player1panel, player1Dialogue[1]);
-                CreateDialogueOptions(player2panel, player2Dialogue[2]);
+                CreateDialogueOptions(1, player1panel, player1Dialogue[0]);
+                CreateDialogueOptions(2, player2panel, player2Dialogue[0]);
             }
         }
 
-        void CreateDialogueOptions(GameObject playerPanel, DialogueList dialogueList)
+        void CreateDialogueOptions(int player, GameObject playerPanel, DialogueList dialogueList)
         {
             playerPanel.SetActive(true);
             foreach (var dialogueLine in dialogueList.dialogueLines)
             {
                 DialogueOption dialogueOption = Instantiate(dialoguePrefab, playerPanel.transform);
-                dialogueOption.Setup(dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
+                dialogueOption.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
             }
         }
 
+        /*
         void LoadPlayerContent(GameObject playerPanel, int responses, string[] responseText)
         {
             playerPanel.SetActive(true);
@@ -147,18 +149,22 @@ namespace Dialogue_Scripts
                 btn.onClick.AddListener((() => OnPlayerChose(1, text)));
             }
         }
+        */
 
-        public void OnPlayerChose(int newIndex, string btnText) // what happens when button is pressed
+        public void OnPlayerChose(int player, int newIndex, string btnText) // what happens when button is pressed
         {
             ChangeTopText(btnText);
 
             switch (newIndex)
             {
+                case 0:
+                    Debug.Log("Player " + player + " chose option 0");
+                    break;
                 case 1:
-                    Debug.Log("Player 1 chose 1");
+                    Debug.Log("Player " + player + " chose option 1");
                     break;
                 case 2:
-                    Debug.Log("Player 1 chose 2");
+                    Debug.Log("Player " + player + " chose option 2");
                     break;
             }
         }

@@ -10,12 +10,14 @@ namespace Dialogue_Scripts
     {
         private ConversationTracker _conversationTracker;
         private Button _button;
+        private int _player;
         private string _optionText;
         private bool _comment;
 
-        public void Setup(int targetIndex, string dialogueText, bool isComment)
+        public void Setup(int player, int targetIndex, string dialogueText, bool isComment)
         {
             _conversationTracker = FindObjectOfType<ConversationTracker>();
+            _player = player;
             _button = GetComponent<Button>();
             _optionText = dialogueText;
             _button.GetComponentInChildren<TextMeshProUGUI>().text = dialogueText;
@@ -31,7 +33,7 @@ namespace Dialogue_Scripts
                 return;
             }
 
-            if (_conversationTracker != null) _conversationTracker.OnPlayerChose(index, _optionText);
+            if (_conversationTracker != null) _conversationTracker.OnPlayerChose(_player, index, _optionText);
         }
     }
 }
