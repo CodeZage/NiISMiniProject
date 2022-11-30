@@ -1,9 +1,8 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Dialogue_Scripts
+namespace Dialogue
 {
     [RequireComponent(typeof(Button))]
     public class DialogueOption : MonoBehaviour

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dialogue_Scripts
+namespace Dialogue
 {
     [CreateAssetMenu(fileName = "New Dialogue Line", menuName = "Dialogue/Create Dialogue Line")]
     public class DialogueLine : ScriptableObject
