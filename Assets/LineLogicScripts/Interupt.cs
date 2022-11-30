@@ -8,7 +8,6 @@ using Button = UnityEngine.UI.Button;
 
 public class Interupt : MonoBehaviour
 {
-
     private float timer = 0;
     private float timerEnd = 5;
     private void Awake()
