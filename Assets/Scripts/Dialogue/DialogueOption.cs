@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Dialogue.LineLogicScripts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,11 @@ namespace Dialogue
     public class DialogueOption : MonoBehaviour
     {
         private ConversationTracker _conversationTracker;
+        private ConversationStorage _conversationStorage;
+
+        private string _informationString;
+        private bool _requiresInformation, _hasRequiredInformation;
+
         private Button _button;
         private int _player;
         private string _optionText;
@@ -24,6 +30,17 @@ namespace Dialogue
             _comment = isComment;
         }
 
+        public void Setup(int player, int targetIndex, string dialogueText, bool requiresInformation,
+            string information, bool isComment)
+        {
+            Setup(player, targetIndex, dialogueText, isComment);
+            _requiresInformation = requiresInformation;
+            
+            if (_requiresInformation)
+                _hasRequiredInformation =
+                    _conversationStorage.CheckInformation(player: _player, information: information);
+        }
+
         private void OnClick(int index)
         {
             if (_comment)
@@ -33,7 +50,13 @@ namespace Dialogue
                 return;
             }
 
-            if (_conversationTracker != null) _conversationTracker.OnPlayerChose(_player, index, _optionText);
+            if (_requiresInformation && !_hasRequiredInformation)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            if (_conversationTracker != null) _conversationTracker.OnPlayerChoice(_player, index, _optionText);
         }
     }
 }
