@@ -29,6 +29,7 @@ namespace Dialogue_Scripts
         {
             if (_comment)
             {
+                _conversationTracker.ChangeTopText(_optionText);
                 Destroy(gameObject);
                 return;
             }
