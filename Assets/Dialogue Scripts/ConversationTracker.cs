@@ -108,6 +108,8 @@ public class ConversationTracker : MonoBehaviour
         if (NPC) // if NPC said something, we need to enable the player options
         {
             NPCSequenceTracker += 1;
+            
+            // load first player options
             LoadPlayerContent(player1panel, P1Choices1.Length, P1Choices1);
             LoadPlayerContent(player2panel, P2Choices1.Length, P2Choices1);
         }
@@ -123,8 +125,13 @@ public class ConversationTracker : MonoBehaviour
             dialogueButton.GetComponentInChildren<TextMeshProUGUI>().text = responseText[i];
             
             var btn = player.GetComponentInChildren<UnityEngine.UI.Button>();
-            btn.onClick.AddListener((() => NextNPCLine()));
+            btn.onClick.AddListener((() => OnPlayerChose()));
         }
+    }
+
+    void OnPlayerChose()
+    {
+        
     }
     
     
