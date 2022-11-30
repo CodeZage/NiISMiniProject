@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
+using Image = UnityEngine.UI.Image;
 
 
 public class ConversationTracker : MonoBehaviour
@@ -48,8 +50,7 @@ public class ConversationTracker : MonoBehaviour
     [SerializeField] private string[] NPCDialogue;
     private int NPCSequenceTracker = 0;
     
-
-
+    
 
     public void StartInfoSequence()
     {
@@ -70,35 +71,49 @@ public class ConversationTracker : MonoBehaviour
 
     public void NextNPCLine()
     {
-        print("I got here");
-        player1panel.SetActive(false);
-        player2panel.SetActive(false);
         LoadNPCContent(NPCDialogue[NPCSequenceTracker], true);
+    }
+    
+    public void ChangeTopText(string newText)
+    {
+        TopPanel.SetActive(true);
+        CurrentTxt.text = newText;
+    }
+
+    public void ShowActivePlayer(int player)
+    {
+        if (player == 1)
+        {
+            var image = player1panel.GetComponent<Image>();
+            image.color = Color.green;
+        }
+        if (player == 2)
+        {
+            var image = player1panel.GetComponent<Image>();
+            image.color = Color.green;
+        }
     }
 
     public void InfoOver()
     {
         NextButton.SetActive(false);
+        
         if (InfoSequence1[InfoSequence1.Length-1] == "Players")
         {
-            print("Player Actions now");
-                    
             LoadPlayerContent(player1panel, P1Choices1.Length, P1Choices1);
             LoadPlayerContent(player2panel, P2Choices1.Length, P2Choices1);
         }
         
         if (InfoSequence1[InfoSequence1.Length-1] == "NPC")
         {
-            print("NPC Dialogue now");
             LoadNPCContent(NPCDialogue[NPCSequenceTracker], true);
         }
     }
     
     void LoadNPCContent(string dialogue, bool NPC)
     {
-        TopPanel.SetActive(true);
-        CurrentTxt.text = dialogue;
-
+        ChangeTopText(dialogue);
+        
         if (!NPC) // if story we need next button, if npc we do not
         {
             sequencetracker += 1;
@@ -113,26 +128,23 @@ public class ConversationTracker : MonoBehaviour
             LoadPlayerContent(player1panel, P1Choices1.Length, P1Choices1);
             LoadPlayerContent(player2panel, P2Choices1.Length, P2Choices1);
         }
-        
     }
 
-    void LoadPlayerContent(GameObject player, int responses, string[] responseText)
+    void LoadPlayerContent(GameObject playerPanel, int responses, string[] responseText)
     {
-        player.SetActive(true);
+        playerPanel.SetActive(true);
         for (int i = 0; i < responses; i++)
         {
-            GameObject dialogueButton = Instantiate(button, player.transform);
-            dialogueButton.GetComponentInChildren<TextMeshProUGUI>().text = responseText[i];
+            GameObject dialogueButton = Instantiate(button, playerPanel.transform);
+            var text = dialogueButton.GetComponentInChildren<TextMeshProUGUI>().text = responseText[i];
             
-            var btn = player.GetComponentInChildren<UnityEngine.UI.Button>();
-            btn.onClick.AddListener((() => OnPlayerChose()));
+            var btn = playerPanel.GetComponentInChildren<UnityEngine.UI.Button>();
+            btn.onClick.AddListener((() => OnPlayerChose(text)));
         }
     }
 
-    void OnPlayerChose()
+    void OnPlayerChose(string btnText) // what happens when button is pressed
     {
-        
+        ChangeTopText(btnText);
     }
-    
-    
 }
