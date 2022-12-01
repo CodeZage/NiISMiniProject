@@ -9,7 +9,7 @@ public class CameraMove : MonoBehaviour
     public List<GameObject> cameraUsedForScenes;
     [SerializeField]private List<Vector3> cameraPosition;
     [SerializeField]private List<Vector3> camerRotation;
-    private GameObject camera;
+    private GameObject _camera;
 
     [SerializeField] private int cameraPositionIndex = 0;
     private int currentCameraIndex = 0;
@@ -21,9 +21,9 @@ public class CameraMove : MonoBehaviour
     {
         
         //Finds the initial camera, and stores all the transforms at the proper places. 
-        camera = GameObject.Find("Main Camera");
+        _camera = GameObject.Find("Main Camera");
         //camera.GetComponent<Camera>().enabled = true;
-        cameraUsedForScenes.Insert(0, camera);
+        cameraUsedForScenes.Insert(0, _camera);
         for (int i = 0; i < cameraUsedForScenes.Count; i++)
         {
             //cameraUsedForScenes[i].GetComponent<Camera>().enabled = false;
@@ -36,13 +36,13 @@ public class CameraMove : MonoBehaviour
     {
         if(currentCameraIndex == cameraPositionIndex) return;
         
-        if (camera.transform.position != cameraPosition[cameraPositionIndex] &&
-            camera.transform.eulerAngles != camerRotation[cameraPositionIndex]){
+        if (_camera.transform.position != cameraPosition[cameraPositionIndex] &&
+            _camera.transform.eulerAngles != camerRotation[cameraPositionIndex]){
             timer += Time.deltaTime;
-            camera.transform.position = Vector3.Lerp(cameraPosition[currentCameraIndex],
+            _camera.transform.position = Vector3.Lerp(cameraPosition[currentCameraIndex],
                 cameraPosition[cameraPositionIndex], timer);
             
-            camera.transform.eulerAngles = Vector3.Lerp(camerRotation[currentCameraIndex],
+            _camera.transform.eulerAngles = Vector3.Lerp(camerRotation[currentCameraIndex],
                 camerRotation[cameraPositionIndex], timer);
             
         }
@@ -54,11 +54,8 @@ public class CameraMove : MonoBehaviour
         }
 
     }
+    
 
-    public void NextScene()
-    {
-        cameraPositionIndex += 1;
-    }
     
     public void SetCameraPositionIndex(int index) //Used to switch between camera positions
     {

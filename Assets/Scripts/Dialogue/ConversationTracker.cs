@@ -52,13 +52,6 @@ namespace Dialogue
         // NPC dialogue
         private int _activePlayer = 1;
 
-        private CameraMove _cameraMove;
-
-        private void Start()
-        {
-            _cameraMove = Camera.main.GetComponent<CameraMove>();
-        }
-
         public void StartConversation()
         {
             StartInfoSequence();
@@ -67,7 +60,6 @@ namespace Dialogue
         private void EndConversation()
         {
             Destroy(gameObject);
-            // next scene functionality here 
         }
 
         private void StartEndSequence(string endText)
@@ -78,12 +70,6 @@ namespace Dialogue
             nextButton.SetActive(true);
             nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
             nextButton.GetComponent<Button>().onClick.AddListener(EndConversation);
-            ChangeScene();
-        }
-
-        private void ChangeScene() // changes scene
-        {
-            _cameraMove.NextScene();
         }
 
         private void StartInfoSequence()
@@ -167,6 +153,7 @@ namespace Dialogue
                 2 => player2Panel,
                 _ => throw new NullReferenceException()
             };
+
             playerPanel.SetActive(true);
             return playerPanel;
         }
@@ -178,7 +165,7 @@ namespace Dialogue
             foreach (var button in existingButtons) Destroy(button.gameObject);
         }
 
-        private void CreateDialogueOptions(int player, DialogueList dialogueList) 
+        private void CreateDialogueOptions(int player, DialogueList dialogueList)
         {
             DestroyOldDialogueOptions(player);
             var playerPanel = GetPlayerPanel(player);
@@ -186,7 +173,6 @@ namespace Dialogue
             foreach (var dialogueLine in dialogueList.dialogueLines)
             {
                 var dialogueOption = Instantiate(dialoguePrefab, playerPanel.transform);
-                // her skal vi også tjekke de andre funktionaliteter knapperne har
                 dialogueOption.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
             }
         }
@@ -259,7 +245,7 @@ namespace Dialogue
                 // No! Come on, the thief will get away!
                 case 4:
                     Debug.Log("Case 4");
-                    
+
                     break;
             }
         }
