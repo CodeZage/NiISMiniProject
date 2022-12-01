@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
+  m_Name: FIRST STORY PROMPT
+  m_EditorClassIdentifier: 
+  lineText: 'Location:  SYN CORP Headquarters.  Casefile 832-2088:   One XY-72 drone
+    has been reported stolen from the fastfood restaurant "Lizard Legs".  The owner
+    reports of two suspicious suspects on the crime scene. The suspects claimed to
+    have nothing to do with it and has left the crime scene.   Requesting a unit
+    for investigating the crime scene immediately and finding the criminals.  '
+  targetIndex: 0
+  isComment: 0
