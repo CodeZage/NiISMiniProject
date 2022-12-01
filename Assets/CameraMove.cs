@@ -54,8 +54,11 @@ public class CameraMove : MonoBehaviour
         }
 
     }
-    
 
+    public void NextScene()
+    {
+        cameraPositionIndex += 1;
+    }
     
     public void SetCameraPositionIndex(int index) //Used to switch between camera positions
     {
