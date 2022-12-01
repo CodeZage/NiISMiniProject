@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
@@ -12,7 +13,7 @@ namespace Dialogue.LineLogicScripts
         private ConversationStorage _conversationStorage;
         public Button button;
 
-        private void Awake()
+        private void Start()
         {
             Initialize();
             if(!contextType)button.onClick.AddListener(TaskOnClick);

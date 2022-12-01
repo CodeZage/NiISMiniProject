@@ -2,6 +2,7 @@ using System;
 using Dialogue.LineLogicScripts;
 using Dialogue.ScriptableObjects;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
@@ -186,10 +187,67 @@ namespace Dialogue
             foreach (var dialogueLine in dialogueList.dialogueLines)
             {
                 var dialogueOption = Instantiate(dialoguePrefab, playerPanel.transform);
-                // her skal vi også tjekke de andre funktionaliteter knapperne har
+                
+                
                 dialogueOption.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
+                CheckDialogueOptionTags(dialogueLine, player); //Checks all the tags of the line, and ads scripts to the line if necessary. We do this AFTER line text have been added, since interrupt needs this information. 
             }
         }
+
+        private void CheckDialogueOptionTags(DialogueLine dialogueLine, int player)//Runs the three checking scripts
+        {
+            CheckInformation(dialogueLine,player);
+            CheckContext(dialogueLine,player);
+            CheckInterupt(dialogueLine);
+            
+        } 
+
+        private void CheckInformation(DialogueLine dialogueLine, int player) // Checks if the line should add or read information. Info can only be given to one player with this method
+        {
+            if (string.IsNullOrEmpty(dialogueLine.informationToAdd)) //Adds information if there is something in the string
+            {
+                Information info = dialogueLine.AddComponent<Information>();
+                info.SetInformationType(false); //true = getInformation, false = setInformation
+                info.SetInformation(dialogueLine.informationToAdd);
+                info.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+
+            if (string.IsNullOrEmpty(dialogueLine.informationToCheckFor))//Checks for information if there is something in the string
+            {
+                Information info = dialogueLine.AddComponent<Information>();
+                info.SetInformationType(true); //true = getInformation, false = setInformation
+                info.SetInformation(dialogueLine.informationToCheckFor);
+                info.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+        }
+
+        private void CheckContext(DialogueLine dialogueLine, int player) // Checks if the line should add or read context. Context can only be given to one player with this method
+        {
+            if (string.IsNullOrEmpty(dialogueLine.contextToAdd)) //Adds context if there is something in the string
+            {
+                Context context = dialogueLine.AddComponent<Context>();
+                context.SetContextType(false); //true = getContext, false = setContext
+                context.SetContext(dialogueLine.contextToAdd);
+                context.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+
+            if (string.IsNullOrEmpty(dialogueLine.contextToCheckFor))//Checks for context if there is something in the string
+            {
+                Context context = dialogueLine.AddComponent<Context>();
+                context.SetContextType(true); //true = getContext, false = setContext
+                context.SetContext(dialogueLine.contextToCheckFor);
+                context.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+        }
+
+        private void CheckInterupt(DialogueLine dialogueLine) // Checks if the line should have an interupt. 
+        {
+            if (!dialogueLine.isInterrupt) return;
+            dialogueLine.AddComponent<Interrupt>();
+
+        } 
+        
+        
 
         public void OnPlayerChoice(int player, int caseIndex, string btnText)
         {
