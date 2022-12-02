@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: A1_List
   m_EditorClassIdentifier: 
   dialogueLines:
-  - {fileID: 11400000, guid: 485a97fdb85a500458d0264ef92f70da, type: 2}
-  - {fileID: 11400000, guid: edb5d6d4840a1df45a8458c9707b33da, type: 2}
+  - {fileID: 11400000, guid: 81be0eb144a962c47b66d66d518254cf, type: 2}
+  - {fileID: 11400000, guid: 65b9cdce02cf8e346b94cf874894747d, type: 2}
+  - {fileID: 11400000, guid: 0ca23851f5953d94294ef434fd05dc7f, type: 2}

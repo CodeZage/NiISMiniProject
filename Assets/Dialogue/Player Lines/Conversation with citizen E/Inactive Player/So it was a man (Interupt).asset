@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: So it was a man (Interupt)
   m_EditorClassIdentifier: 
-  lineText: So it was a man?
   targetIndex: 0
+  lineText: So it was a man?
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 1
   isComment: 0

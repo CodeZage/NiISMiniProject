@@ -403,7 +403,7 @@ namespace Dialogue
 
                 // What did the person look like?
                 case 3:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, -1, 2));
                     break;
                 
                 // Did the person cary an item?
@@ -428,12 +428,17 @@ namespace Dialogue
                 
                 // Which direction did the person go?
                 case 8:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(npcLines.lines[9], btnText, player, 3, 2, 3));
+                    break; 
+                
+                // So it was a man?
+                case 9:
+                    SwapActivePlayer();
+                    StartCoroutine(GoToNewIndex(npcLines.lines[7], btnText, player, 3, 2, -1, 2));
                     break;
             }
         }
-
-
+        
         private void CitizenFConversation(int player, int caseIndex, string btnText)
         {
             switch (caseIndex)
@@ -449,7 +454,6 @@ namespace Dialogue
                     break;
             }
         }
-
 
         private void CopConversation(int player, int caseIndex, string btnText)
         {
