@@ -37,7 +37,7 @@ namespace Dialogue
         private GameObject topPanel;
 
         [SerializeField] private GameObject topPanelImage;
-        
+
         [SerializeField] private TextMeshProUGUI currentTxt;
 
         // player panels
@@ -58,7 +58,6 @@ namespace Dialogue
         #endregion
 
         #region Non-serialized Private Fields
-
 
         // how far are we in the info sequence
         private int _sequenceTracker = 0;
@@ -135,25 +134,9 @@ namespace Dialogue
             // next scene functionality here 
         }
 
-        private void StartEndSequence(string endText)
-        {
-            ChangeTopText(endText);
-            player1Panel.SetActive(false);
-            player2Panel.SetActive(false);
-            nextButton.SetActive(true);
-            nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
-            nextButton.GetComponent<Button>().onClick.AddListener(OnEndConversation);
-            ChangeScene();
-        }
-
         private void ChangeScene() // changes scene
         {
             _cameraMove.NextScene();
-        }
-
-        private void StartInfoSequence()
-        {
-            GoToNewInfoLine(infoSequence[_sequenceTracker]);
         }
 
         private void InfoOver()
@@ -193,6 +176,7 @@ namespace Dialogue
         public void OnPlayerChoice(int player, int caseIndex, string btnText)
         {
             ChangeTopText(btnText);
+            SwapImage(player);
 
             switch (currentConversation)
             {
@@ -279,24 +263,6 @@ namespace Dialogue
 
             foreach (var dialogueLine in dialogueList.dialogueLines)
             {
-                var dialogueOption = Instantiate(dialoguePrefab, playerPanel.transform);
-                dialogueOption.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
-            }
-        }
-
-        public void OnPlayerChoice(int player, int caseIndex, string btnText)
-        {
-            ChangeTopText(btnText);
-            SwapImage(player);
-            
-            
-
-            switch (currentConversation)
-            {
-                case EConversation.Homeless:
-                    HomelessConversation(player, caseIndex, btnText);
-                    break;
-                // Checks if the required dialouge has matching context and info and skips the button if not.
                 if (!CheckForRequiredContextAndInformation(dialogueLine, player)) return;
 
                 var dialogueOptionButton = Instantiate(dialoguePrefab, playerPanel.transform);
