@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: P_Line0
   m_EditorClassIdentifier: 
-  targetIndex: 1
+  targetIndex: 2
   lineText: Hi, did you see someone run by just now?
   informationToCheckFor: 
   informationToAdd: 

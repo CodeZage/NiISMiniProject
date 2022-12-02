@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: A_Line2
   m_EditorClassIdentifier: 
-  targetIndex: 4
+  targetIndex: 5
   lineText: No, we have to hurry up if we want to catch the thief.
-  informationToCheckFor: Gamer
+  informationToCheckFor: 
   informationToAdd: 
   contextToCheckFor: 
   contextToAdd: 

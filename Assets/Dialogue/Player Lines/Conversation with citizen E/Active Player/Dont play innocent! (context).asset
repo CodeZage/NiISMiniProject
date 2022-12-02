@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Dont play innocent! (context)
   m_EditorClassIdentifier: 
+  targetIndex: 2
   lineText: Don't play innocent, fool! Someone just ran through your store, did they
     not?
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: Bad Cop
+  isInterrupt: 0
   isComment: 0

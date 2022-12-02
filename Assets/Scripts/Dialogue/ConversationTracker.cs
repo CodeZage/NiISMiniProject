@@ -54,6 +54,8 @@ namespace Dialogue
         [SerializeField] private string[] infoSequence;
 
         [SerializeField] private Sprite[] characterSprites;
+        
+        [SerializeField] private ConversationTracker nextConversation;
 
         #endregion
 
@@ -73,18 +75,35 @@ namespace Dialogue
 
         #region Unity Event Functions
 
-        private void Start()
+        private void Awake()
         {
-            if (Camera.main != null) _cameraMove = Camera.main.GetComponent<CameraMove>();
+            _cameraMove = GameObject.FindWithTag("MainCamera").GetComponent<CameraMove>();
         }
 
         #endregion
 
         #region Public Functions
 
-        public void StartConversation()
+        private void StartInfoSequence()
         {
-            StartInfoSequence();
+            SwapImage(0);
+            GoToNewInfoLine(infoSequence[_sequenceTracker]);
+        }
+
+
+        public void NextInfo()
+        {
+            if (_sequenceTracker <
+                infoSequence.Length) // if the info dialogue is done, change the state to player action
+                GoToNewInfoLine(infoSequence[_sequenceTracker]);
+            else
+                InfoOver();
+        }
+
+        private void InfoOver()
+        {
+            nextButton.SetActive(false);
+            BeginConversation(currentConversation);
         }
 
         private void EndConversation()
@@ -104,19 +123,6 @@ namespace Dialogue
             nextButton.GetComponent<Button>().onClick.AddListener(EndConversation);
         }
 
-        private void StartInfoSequence()
-        {
-            GoToNewInfoLine(infoSequence[_sequenceTracker]);
-        }
-
-        public void NextInfo()
-        {
-            if (_sequenceTracker <
-                infoSequence.Length) // if the info dialogue is done, change the state to player action
-                GoToNewInfoLine(infoSequence[_sequenceTracker]);
-            else
-                InfoOver();
-        }
 
         public void ChangeTopText(string newText)
         {
@@ -139,11 +145,6 @@ namespace Dialogue
             _cameraMove.NextScene();
         }
 
-        private void InfoOver()
-        {
-            nextButton.SetActive(false);
-            GoToNewIndex(npcLines.lines[0], 0, 0);
-        }
 
         private void GoToNewInfoLine(string npcLine)
         {
@@ -161,17 +162,37 @@ namespace Dialogue
                 2 => 1,
                 _ => 1
             };
+
             Debug.Log("Swapped active player to " + _activePlayer);
         }
 
-        private void SwapImage(int playerIndex)
+        private void SwapImage(int imageIndex)
         {
-            topPanelImage.GetComponentInChildren<Image>().sprite = characterSprites[playerIndex];
+            topPanelImage.GetComponentInChildren<Image>().sprite = characterSprites[imageIndex];
         }
 
         #endregion
 
         #region Core Conversation Logic
+
+        private void BeginConversation(EConversation conversation)
+        {
+            switch (conversation)
+            {
+                case EConversation.Homeless:
+                    HomelessConversation(1, 0, "");
+                    break;
+                case EConversation.CitizenF:
+                    HomelessConversation(1, 0, "");
+                    break;
+                case EConversation.CitizenE:
+                    HomelessConversation(1, 0, "");
+                    break;
+                case EConversation.Cop:
+                    HomelessConversation(1, 0, "");
+                    break;
+            }
+        }
 
         public void OnPlayerChoice(int player, int caseIndex, string btnText)
         {
@@ -201,11 +222,42 @@ namespace Dialogue
             }
         }
 
-        private void GoToNewIndex(string npcLine, int activeDialogueIndex, int passiveDialogueIndex)
+        private IEnumerator FinishConversationWithInfo(string npcLine, string playerLine, int player, int npc, float wait, float endWait)
         {
-            ChangeTopText(npcLine);
+            if (player != -1) SwapImage(player);
+            ChangeTopText(playerLine);
+
             DestroyOldDialogueOptions(1);
             DestroyOldDialogueOptions(2);
+
+            yield return new WaitForSeconds(wait);
+
+            if (npc != -1) SwapImage(npc);
+
+            ChangeTopText(npcLine);
+
+            yield return new WaitForSeconds(endWait);
+
+            nextConversation.gameObject.SetActive(true);
+            nextConversation.enabled = true;
+            nextConversation.BeginConversation(nextConversation.currentConversation);
+            Destroy(gameObject);
+        }
+        
+        private IEnumerator GoToNewIndex(string npcLine, string playerLine, int player, int npc,
+            int activeDialogueIndex, int passiveDialogueIndex, float wait)
+        {
+            if (player != -1) SwapImage(player);
+            ChangeTopText(playerLine);
+
+            DestroyOldDialogueOptions(1);
+            DestroyOldDialogueOptions(2);
+
+            yield return new WaitForSeconds(wait);
+
+            if (npc != -1) SwapImage(npc);
+
+            ChangeTopText(npcLine);
 
             switch (_activePlayer)
             {
@@ -286,59 +338,44 @@ namespace Dialogue
         {
             switch (caseIndex)
             {
-                // Hi, did you see the person who just left store?
                 case 0:
+                    ChangeScene();
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 1));
+                    break;
+
+                // Hi, did you see the person who just left store?
+                case 1:
                     Debug.Log("Player " + player + " chose " + btnText);
-                    GoToNewIndex(npcLines.lines[1], 1, -1);
-                    SwapImage(3); // swap image to homeless
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 1, -1, 2));
                     break;
 
                 // Hi, did you see someone run by just now?
-                case 1:
+                case 2:
                     Debug.Log("Player " + player + " chose " + btnText);
                     SwapActivePlayer();
-                    GoToNewIndex(npcLines.lines[1], 1, -1);
-                    SwapImage(3); // swap image to homeless
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 1, -1, 2));
                     break;
 
-                // OPTIONAL: Should we investigate the mud-puddle?
-                case 2:
-                    Debug.Log("Player " + player + " chose option 2");
-                    SwapActivePlayer();
-                    GoToNewIndex(btnText, 2, -1);
-                    break;
-
-                // Yes I think we should! There might be clues if we search a bit.
+                // Should we investigate the mud puddle?
                 case 3:
-                    Debug.Log("Case 3");
-                    ConversationStorage.Instance.AddInformation("Boots", 1);
-                    ConversationStorage.Instance.AddInformation("Boots", 2);
-                    StartEndSequence("Reward: The players may notice footprints in the mudpuddle." +
-                                     "This will gain them knowledge about the criminals footwear which will" +
-                                     " unlock future conversation possibilities(boots related options).");
+                    SwapActivePlayer();
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, -1, 2, -1, 2));
+                    break;
+
+                // Yes we should.
+                case 4:
+                    StartCoroutine(FinishConversationWithInfo(
+                        "As they start to inspect the mud-puddle, the two suspects discovers footprints from a pair of heavy boots. This information may be relevant in their further search for the criminal.",
+                        btnText, player, 0, 2, 5));
+                    ConversationStorage.Instance.AddInformation("Footprints", 1);
+                    ConversationStorage.Instance.AddInformation("Footprints", 2);
                     break;
 
                 // No, we have to hurry up if we want to catch the thief.
-                // No! Come on, the thief will get away!
-                case 4:
-                    Debug.Log("Case 4");
-
-                    break;
-            }
-        }
-
-        private void CitizenFConversation(int player, int caseIndex, string btnText)
-        {
-            switch (caseIndex)
-            {
-                case 0:
-                    GoToNewIndex(npcLines.lines[3], 1, 1);
-                    break;
-                case 1:
-                    Debug.Log("Player " + player + " chose option 1");
-                    break;
-                case 2:
-                    Debug.Log("Player " + player + " chose option 2");
+                case 5:
+                    StartCoroutine(FinishConversationWithInfo(
+                        "The suspects proceed to the shop on the other side of the street...",
+                        btnText, player, 0, 2, 1.5f));
                     break;
             }
         }
@@ -347,8 +384,62 @@ namespace Dialogue
         {
             switch (caseIndex)
             {
+                // Start of conversation
                 case 0:
-                    GoToNewIndex(npcLines.lines[3], 1, 1);
+                    ChangeScene();
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 1));
+                    break;
+                
+                // We are here to find out who stole the XY-72 drone. We have heard that you have seen the criminal. 
+                // You can help US find out who stole the XY-72 drone. We heard that you have seen the criminal. 
+                case 1:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, -1, 2));
+                    break;
+                
+                // Don't play innocent, fool! Someone just ran through your store, did they not? (Bad Cop)
+                case 2:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 1, -1, 2));
+                    break;
+
+                // What did the person look like?
+                case 3:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 1, -1, 2));
+                    break;
+                
+                // Did the person cary an item?
+                case 4:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[5], btnText, player, 3, 1, -1, 2));
+                    break;
+
+                // Did the person wear boots?
+                case 5:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[4], btnText, player, 3, 1, -1, 2));
+                    break;
+                
+                // Were there anything distinct about the person's look?
+                case 6:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 1, -1, 2));
+                    break;
+
+                // BAD COP: This is not helping!! You better start talking! (Bad Cop)
+                case 7:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 1, -1, 2));
+                    break;
+                
+                // Which direction did the person go?
+                case 8:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 1, -1, 2));
+                    break;
+            }
+        }
+
+
+        private void CitizenFConversation(int player, int caseIndex, string btnText)
+        {
+            switch (caseIndex)
+            {
+                case 0:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, 1, 1, 2));
                     break;
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
@@ -359,12 +450,13 @@ namespace Dialogue
             }
         }
 
+
         private void CopConversation(int player, int caseIndex, string btnText)
         {
             switch (caseIndex)
             {
                 case 0:
-                    GoToNewIndex(npcLines.lines[3], 1, 1);
+                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, 1, 1, 2));
                     break;
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
