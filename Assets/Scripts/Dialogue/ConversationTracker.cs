@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
+using System.Collections;
 using Dialogue.LineLogicScripts;
 using Dialogue.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Image = UnityEngine.UI.Image;
 
 
 namespace Dialogue
@@ -34,18 +36,24 @@ namespace Dialogue
         [Header("User Interface")] [SerializeField]
         private GameObject topPanel;
 
+        [SerializeField] private GameObject topPanelImage;
+
         [SerializeField] private TextMeshProUGUI currentTxt;
 
         // player panels
         [SerializeField] private GameObject player1Panel;
+        [SerializeField] private GameObject player1Image;
 
         [SerializeField] private GameObject player2Panel;
+        [SerializeField] private GameObject player2Image;
 
         // next story dialogue
         [SerializeField] private GameObject nextButton;
 
         // the first info sequence;
         [SerializeField] private string[] infoSequence;
+
+        [SerializeField] private Sprite[] characterSprites;
 
         #endregion
 
@@ -79,6 +87,28 @@ namespace Dialogue
             StartInfoSequence();
         }
 
+        private void EndConversation()
+        {
+            Destroy(gameObject);
+        }
+
+        private void StartEndSequence(string endText)
+        {
+            ChangeTopText(endText);
+            player1Panel.SetActive(false);
+            player1Image.SetActive(false);
+            player2Panel.SetActive(false);
+            player2Image.SetActive(false);
+            nextButton.SetActive(true);
+            nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            nextButton.GetComponent<Button>().onClick.AddListener(EndConversation);
+        }
+
+        private void StartInfoSequence()
+        {
+            GoToNewInfoLine(infoSequence[_sequenceTracker]);
+        }
+
         public void NextInfo()
         {
             if (_sequenceTracker <
@@ -104,25 +134,9 @@ namespace Dialogue
             // next scene functionality here 
         }
 
-        private void StartEndSequence(string endText)
-        {
-            ChangeTopText(endText);
-            player1Panel.SetActive(false);
-            player2Panel.SetActive(false);
-            nextButton.SetActive(true);
-            nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
-            nextButton.GetComponent<Button>().onClick.AddListener(OnEndConversation);
-            ChangeScene();
-        }
-
         private void ChangeScene() // changes scene
         {
             _cameraMove.NextScene();
-        }
-
-        private void StartInfoSequence()
-        {
-            GoToNewInfoLine(infoSequence[_sequenceTracker]);
         }
 
         private void InfoOver()
@@ -150,6 +164,11 @@ namespace Dialogue
             Debug.Log("Swapped active player to " + _activePlayer);
         }
 
+        private void SwapImage(int playerIndex)
+        {
+            topPanelImage.GetComponentInChildren<Image>().sprite = characterSprites[playerIndex];
+        }
+
         #endregion
 
         #region Core Conversation Logic
@@ -157,6 +176,7 @@ namespace Dialogue
         public void OnPlayerChoice(int player, int caseIndex, string btnText)
         {
             ChangeTopText(btnText);
+            SwapImage(player);
 
             switch (currentConversation)
             {
@@ -217,8 +237,15 @@ namespace Dialogue
                 2 => player2Panel,
                 _ => throw new NullReferenceException()
             };
+            var playerImage = player switch
+            {
+                1 => player1Image,
+                2 => player2Image,
+                _ => throw new NullReferenceException()
+            };
 
             playerPanel.SetActive(true);
+            playerImage.SetActive(true);
             return playerPanel;
         }
 
@@ -236,7 +263,6 @@ namespace Dialogue
 
             foreach (var dialogueLine in dialogueList.dialogueLines)
             {
-                // Checks if the required dialouge has matching context and info and skips the button if not.
                 if (!CheckForRequiredContextAndInformation(dialogueLine, player)) return;
 
                 var dialogueOptionButton = Instantiate(dialoguePrefab, playerPanel.transform);
@@ -264,6 +290,7 @@ namespace Dialogue
                 case 0:
                     Debug.Log("Player " + player + " chose " + btnText);
                     GoToNewIndex(npcLines.lines[1], 1, -1);
+                    SwapImage(3); // swap image to homeless
                     break;
 
                 // Hi, did you see someone run by just now?
@@ -271,6 +298,7 @@ namespace Dialogue
                     Debug.Log("Player " + player + " chose " + btnText);
                     SwapActivePlayer();
                     GoToNewIndex(npcLines.lines[1], 1, -1);
+                    SwapImage(3); // swap image to homeless
                     break;
 
                 // OPTIONAL: Should we investigate the mud-puddle?
