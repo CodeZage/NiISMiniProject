@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Dialogue/Player Lines/Conversation 1 Active.meta
+guid: 90a09d5e2141969409c475c51a9213fc
+========
 guid: 5805f2878fed2a7498644bd623232390
+>>>>>>>> main:Assets/Dialogue/Player Lines/Story Introduction.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

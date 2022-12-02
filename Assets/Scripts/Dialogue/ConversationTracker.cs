@@ -168,6 +168,7 @@ namespace Dialogue
                 2 => player2Panel,
                 _ => throw new NullReferenceException()
             };
+
             playerPanel.SetActive(true);
             return playerPanel;
         }
@@ -187,8 +188,6 @@ namespace Dialogue
             foreach (var dialogueLine in dialogueList.dialogueLines)
             {
                 var dialogueOption = Instantiate(dialoguePrefab, playerPanel.transform);
-                
-                
                 dialogueOption.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
                 CheckDialogueOptionTags(dialogueLine, player); //Checks all the tags of the line, and ads scripts to the line if necessary. We do this AFTER line text have been added, since interrupt needs this information. 
             }
