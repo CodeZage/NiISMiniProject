@@ -443,8 +443,9 @@ namespace Dialogue
         {
             switch (caseIndex)
             {
+                // Start: Uh, hello. Welcome to my shop! What can I get you?
                 case 0:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, 1, 1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], btnText, player, 3, 1, 1, 2));
                     break;
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
