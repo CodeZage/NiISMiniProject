@@ -52,11 +52,13 @@ public class CameraMove : MonoBehaviour
             timer = 0;
             _audioManager.PlayNextTrack();
         }
-
     }
-    
 
-    
+    public void NextScene()
+    {
+        SetCameraPositionIndex(currentCameraIndex + 1);
+    }
+
     public void SetCameraPositionIndex(int index) //Used to switch between camera positions
     {
         cameraPositionIndex = index;

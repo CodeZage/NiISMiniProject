@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using Dialogue.LineLogicScripts;
 using Dialogue.ScriptableObjects;
@@ -19,6 +20,9 @@ namespace Dialogue
             Homeless,
             Cop
         }
+
+
+        #region Serialized Private Fields
 
         [Header("Conversation")] [SerializeField]
         private EConversation currentConversation;
@@ -51,6 +55,11 @@ namespace Dialogue
 
         [SerializeField] private Sprite[] characterSprites;
 
+        #endregion
+
+        #region Non-serialized Private Fields
+
+
         // how far are we in the info sequence
         private int _sequenceTracker = 0;
 
@@ -58,6 +67,21 @@ namespace Dialogue
 
         // NPC dialogue
         private int _activePlayer = 1;
+
+        private CameraMove _cameraMove;
+
+        #endregion
+
+        #region Unity Event Functions
+
+        private void Start()
+        {
+            if (Camera.main != null) _cameraMove = Camera.main.GetComponent<CameraMove>();
+        }
+
+        #endregion
+
+        #region Public Functions
 
         public void StartConversation()
         {
@@ -101,6 +125,37 @@ namespace Dialogue
             currentTxt.text = newText;
         }
 
+        #endregion
+
+        #region Private Functions
+
+        private void OnEndConversation()
+        {
+            Destroy(gameObject);
+            // next scene functionality here 
+        }
+
+        private void StartEndSequence(string endText)
+        {
+            ChangeTopText(endText);
+            player1Panel.SetActive(false);
+            player2Panel.SetActive(false);
+            nextButton.SetActive(true);
+            nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            nextButton.GetComponent<Button>().onClick.AddListener(OnEndConversation);
+            ChangeScene();
+        }
+
+        private void ChangeScene() // changes scene
+        {
+            _cameraMove.NextScene();
+        }
+
+        private void StartInfoSequence()
+        {
+            GoToNewInfoLine(infoSequence[_sequenceTracker]);
+        }
+
         private void InfoOver()
         {
             nextButton.SetActive(false);
@@ -110,6 +165,7 @@ namespace Dialogue
         private void GoToNewInfoLine(string npcLine)
         {
             ChangeTopText(npcLine);
+
             _sequenceTracker += 1;
             nextButton.SetActive(true);
         }
@@ -128,6 +184,37 @@ namespace Dialogue
         private void SwapImage(int playerIndex)
         {
             topPanelImage.GetComponentInChildren<Image>().sprite = characterSprites[playerIndex];
+        }
+
+        #endregion
+
+        #region Core Conversation Logic
+
+        public void OnPlayerChoice(int player, int caseIndex, string btnText)
+        {
+            ChangeTopText(btnText);
+
+            switch (currentConversation)
+            {
+                case EConversation.Homeless:
+                    HomelessConversation(player, caseIndex, btnText);
+                    break;
+
+                case EConversation.CitizenF:
+                    CitizenFConversation(player, caseIndex, btnText);
+                    break;
+
+                case EConversation.CitizenE:
+                    CitizenEConversation(player, caseIndex, btnText);
+                    break;
+
+                case EConversation.Cop:
+                    CopConversation(player, caseIndex, btnText);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void GoToNewIndex(string npcLine, int activeDialogueIndex, int passiveDialogueIndex)
@@ -209,26 +296,25 @@ namespace Dialogue
                 case EConversation.Homeless:
                     HomelessConversation(player, caseIndex, btnText);
                     break;
+                // Checks if the required dialouge has matching context and info and skips the button if not.
+                if (!CheckForRequiredContextAndInformation(dialogueLine, player)) return;
 
-                case EConversation.CitizenF:
-                    CitizenFConversation(player, caseIndex, btnText);
-                    break;
+                var dialogueOptionButton = Instantiate(dialoguePrefab, playerPanel.transform);
+                dialogueOptionButton.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText,
+                    dialogueLine.isComment, dialogueLine.isInterrupt);
 
-                case EConversation.CitizenE:
-                    CitizenEConversation(player, caseIndex, btnText);
-                    break;
+                var strings = CheckForAddedContextAndInformation(dialogueLine);
 
-                case EConversation.Cop:
-                    CopConversation(player, caseIndex, btnText);
-                    break;
+                // Checks for and adds context and info to the player when the button is clicked.
+                if (!string.IsNullOrEmpty(strings[0]))
+                    dialogueOptionButton.GetComponent<Button>().onClick.AddListener(() =>
+                        ConversationStorage.Instance.AddContext(strings[0], player));
 
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (!string.IsNullOrEmpty(strings[1]))
+                    dialogueOptionButton.GetComponent<Button>().onClick.AddListener(() =>
+                        ConversationStorage.Instance.AddInformation(strings[1], player));
             }
         }
-        
-
-        #region Conversation Logic
 
         private void HomelessConversation(int player, int caseIndex, string btnText)
         {
@@ -322,6 +408,99 @@ namespace Dialogue
                     break;
             }
         }
+
+        #endregion
+
+        #region Static Check Functions
+
+        private static bool CheckForRequiredContextAndInformation(DialogueLine dialogueLine, int player)
+        {
+            var bools = new bool[2];
+
+            if (string.IsNullOrEmpty(dialogueLine.contextToCheckFor))
+                bools[0] = true;
+            else
+                bools[0] = ConversationStorage.Instance.CheckContext(dialogueLine.contextToCheckFor, player);
+
+            if (string.IsNullOrEmpty(dialogueLine.informationToCheckFor))
+                bools[1] = true;
+            else
+                bools[1] = ConversationStorage.Instance.CheckInformation(dialogueLine.informationToCheckFor, player);
+
+            // Returns true if both checks are true.
+            return !bools.Contains(false);
+        }
+
+        private static string[] CheckForAddedContextAndInformation(DialogueLine dialogueLine)
+        {
+            var add = new string[2];
+
+            if (string.IsNullOrEmpty(dialogueLine.contextToAdd))
+                add[0] = null;
+            else
+                add[0] = dialogueLine.contextToAdd;
+
+            if (string.IsNullOrEmpty(dialogueLine.informationToAdd))
+                add[1] = null;
+            else
+                add[1] = dialogueLine.informationToAdd;
+
+            return add;
+        }
+
+        /*private static void CheckDialogueOptionTags(DialogueLine dialogueLine, int player)
+        {
+            CheckInformation(dialogueLine, player);
+            CheckContext(dialogueLine, player);
+            CheckInterrupt(dialogueLine);
+        }
+
+        private static void CheckInformation(DialogueLine dialogueLine, int player)
+        {
+            if (string.IsNullOrEmpty(dialogueLine.informationToAdd))
+            {
+                var info = dialogueLine.AddComponent<Information>();
+                info.SetInformationType(false); //true = getInformation, false = setInformation
+                info.SetInformation(dialogueLine.informationToAdd);
+                info.SetPlayer(player - 1); // 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+
+            if (string.IsNullOrEmpty(dialogueLine.informationToCheckFor))
+            {
+                var info = dialogueLine.AddComponent<Information>();
+                info.SetInformationType(true); //true = getInformation, false = setInformation
+                info.SetInformation(dialogueLine.informationToCheckFor);
+                info.SetPlayer(player - 1); // 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+        }
+
+        private static void
+            CheckContext(DialogueLine dialogueLine,
+                int player) // Checks if the line should add or read context. Context can only be given to one player with this method
+        {
+            if (string.IsNullOrEmpty(dialogueLine.contextToAdd)) //Adds context if there is something in the string
+            {
+                var context = dialogueLine.AddComponent<Context>();
+                context.SetContextType(false); //true = getContext, false = setContext
+                context.SetContext(dialogueLine.contextToAdd);
+                context.SetPlayer(player - 1); // 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+
+            if (string.IsNullOrEmpty(dialogueLine
+                    .contextToCheckFor)) //Checks for context if there is something in the string
+            {
+                var context = dialogueLine.AddComponent<Context>();
+                context.SetContextType(true); //true = getContext, false = setContext
+                context.SetContext(dialogueLine.contextToCheckFor);
+                context.SetPlayer(player - 1); // 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+        }
+
+        private static void CheckInterrupt(DialogueLine dialogueLine) // Checks if the line should have an interupt. 
+        {
+            if (!dialogueLine.isInterrupt) return;
+            dialogueLine.AddComponent<Interrupt>();
+        }*/
 
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using Dialogue.LineLogicScripts;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,7 @@ namespace Dialogue
         private string _optionText;
         private bool _comment;
 
-        public void Setup(int player, int targetIndex, string dialogueText, bool isComment)
+        public void Setup(int player, int targetIndex, string dialogueText, bool isComment, bool isInterrupt)
         {
             _conversationTracker = FindObjectOfType<ConversationTracker>();
             _player = player;
@@ -28,12 +29,17 @@ namespace Dialogue
             _button.GetComponentInChildren<TextMeshProUGUI>().text = dialogueText;
             _button.onClick.AddListener(() => OnClick(targetIndex));
             _comment = isComment;
+
+            if (isInterrupt)
+            {
+                _button.AddComponent<Interrupt>();
+            }
         }
 
         public void Setup(int player, int targetIndex, string dialogueText, bool requiresInformation,
-            string information, bool isComment)
+            string information, bool isComment, bool isInterrupt)
         {
-            Setup(player, targetIndex, dialogueText, isComment);
+            Setup(player, targetIndex, dialogueText, isComment, isInterrupt);
             _requiresInformation = requiresInformation;
             
             if (_requiresInformation)

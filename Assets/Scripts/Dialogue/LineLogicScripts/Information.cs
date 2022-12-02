@@ -11,7 +11,7 @@ namespace Dialogue.LineLogicScripts
         private ConversationStorage conversationStorage;
         public Button button;
 
-        private void Awake()
+        private void Start()
         {
             Initialize();
             if(!informationType)button.onClick.AddListener(TaskOnClick);
@@ -30,7 +30,7 @@ namespace Dialogue.LineLogicScripts
             conversationStorage.AddInformation(information,player);
         }
 
-        public void SetContext(string c)
+        public void SetInformation(string c)
         {
             information = c;
         }
@@ -40,7 +40,7 @@ namespace Dialogue.LineLogicScripts
             player = p;
         }
 
-        public void SetContextType(bool b)
+        public void SetInformationType(bool b)
         {
             informationType = b;
         }
