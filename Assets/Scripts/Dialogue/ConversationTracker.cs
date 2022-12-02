@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Dialogue.LineLogicScripts;
 using Dialogue.ScriptableObjects;
 using TMPro;
@@ -31,18 +32,24 @@ namespace Dialogue
         [Header("User Interface")] [SerializeField]
         private GameObject topPanel;
 
+        [SerializeField] private GameObject topPanelImage;
+        
         [SerializeField] private TextMeshProUGUI currentTxt;
 
         // player panels
         [SerializeField] private GameObject player1Panel;
+        [SerializeField] private GameObject player1Image;
 
         [SerializeField] private GameObject player2Panel;
+        [SerializeField] private GameObject player2Image;
 
         // next story dialogue
         [SerializeField] private GameObject nextButton;
 
         // the first info sequence;
         [SerializeField] private string[] infoSequence;
+
+        [SerializeField] private Sprite[] characterSprites;
 
         // how far are we in the info sequence
         private int _sequenceTracker = 0;
@@ -66,7 +73,9 @@ namespace Dialogue
         {
             ChangeTopText(endText);
             player1Panel.SetActive(false);
+            player1Image.SetActive(false);
             player2Panel.SetActive(false);
+            player2Image.SetActive(false);
             nextButton.SetActive(true);
             nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
             nextButton.GetComponent<Button>().onClick.AddListener(EndConversation);
@@ -101,7 +110,6 @@ namespace Dialogue
         private void GoToNewInfoLine(string npcLine)
         {
             ChangeTopText(npcLine);
-
             _sequenceTracker += 1;
             nextButton.SetActive(true);
         }
@@ -115,6 +123,11 @@ namespace Dialogue
                 _ => 1
             };
             Debug.Log("Swapped active player to " + _activePlayer);
+        }
+
+        private void SwapImage(int playerIndex)
+        {
+            topPanelImage.GetComponentInChildren<Image>().sprite = characterSprites[playerIndex];
         }
 
         private void GoToNewIndex(string npcLine, int activeDialogueIndex, int passiveDialogueIndex)
@@ -153,8 +166,15 @@ namespace Dialogue
                 2 => player2Panel,
                 _ => throw new NullReferenceException()
             };
+            var playerImage = player switch
+            {
+                1 => player1Image,
+                2 => player2Image,
+                _ => throw new NullReferenceException()
+            };
 
             playerPanel.SetActive(true);
+            playerImage.SetActive(true);
             return playerPanel;
         }
 
@@ -180,6 +200,9 @@ namespace Dialogue
         public void OnPlayerChoice(int player, int caseIndex, string btnText)
         {
             ChangeTopText(btnText);
+            SwapImage(player);
+            
+            
 
             switch (currentConversation)
             {
@@ -203,7 +226,7 @@ namespace Dialogue
                     throw new ArgumentOutOfRangeException();
             }
         }
-
+        
 
         #region Conversation Logic
 
@@ -215,6 +238,7 @@ namespace Dialogue
                 case 0:
                     Debug.Log("Player " + player + " chose " + btnText);
                     GoToNewIndex(npcLines.lines[1], 1, -1);
+                    SwapImage(3); // swap image to homeless
                     break;
 
                 // Hi, did you see someone run by just now?
@@ -222,6 +246,7 @@ namespace Dialogue
                     Debug.Log("Player " + player + " chose " + btnText);
                     SwapActivePlayer();
                     GoToNewIndex(npcLines.lines[1], 1, -1);
+                    SwapImage(3); // swap image to homeless
                     break;
 
                 // OPTIONAL: Should we investigate the mud-puddle?
