@@ -2,6 +2,7 @@ using System;
 using Dialogue.LineLogicScripts;
 using Dialogue.ScriptableObjects;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
@@ -52,6 +53,13 @@ namespace Dialogue
         // NPC dialogue
         private int _activePlayer = 1;
 
+        private CameraMove _cameraMove;
+
+        private void Start()
+        {
+            _cameraMove = Camera.main.GetComponent<CameraMove>();
+        }
+
         public void StartConversation()
         {
             StartInfoSequence();
@@ -60,6 +68,7 @@ namespace Dialogue
         private void EndConversation()
         {
             Destroy(gameObject);
+            // next scene functionality here 
         }
 
         private void StartEndSequence(string endText)
@@ -70,6 +79,12 @@ namespace Dialogue
             nextButton.SetActive(true);
             nextButton.GetComponent<Button>().onClick.RemoveAllListeners();
             nextButton.GetComponent<Button>().onClick.AddListener(EndConversation);
+            ChangeScene();
+        }
+
+        private void ChangeScene() // changes scene
+        {
+            _cameraMove.NextScene();
         }
 
         private void StartInfoSequence()
@@ -165,7 +180,7 @@ namespace Dialogue
             foreach (var button in existingButtons) Destroy(button.gameObject);
         }
 
-        private void CreateDialogueOptions(int player, DialogueList dialogueList)
+        private void CreateDialogueOptions(int player, DialogueList dialogueList) 
         {
             DestroyOldDialogueOptions(player);
             var playerPanel = GetPlayerPanel(player);
@@ -174,8 +189,64 @@ namespace Dialogue
             {
                 var dialogueOption = Instantiate(dialoguePrefab, playerPanel.transform);
                 dialogueOption.Setup(player, dialogueLine.targetIndex, dialogueLine.lineText, dialogueLine.isComment);
+                CheckDialogueOptionTags(dialogueLine, player); //Checks all the tags of the line, and ads scripts to the line if necessary. We do this AFTER line text have been added, since interrupt needs this information. 
             }
         }
+
+        private void CheckDialogueOptionTags(DialogueLine dialogueLine, int player)//Runs the three checking scripts
+        {
+            CheckInformation(dialogueLine,player);
+            CheckContext(dialogueLine,player);
+            CheckInterupt(dialogueLine);
+            
+        } 
+
+        private void CheckInformation(DialogueLine dialogueLine, int player) // Checks if the line should add or read information. Info can only be given to one player with this method
+        {
+            if (string.IsNullOrEmpty(dialogueLine.informationToAdd)) //Adds information if there is something in the string
+            {
+                Information info = dialogueLine.AddComponent<Information>();
+                info.SetInformationType(false); //true = getInformation, false = setInformation
+                info.SetInformation(dialogueLine.informationToAdd);
+                info.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+
+            if (string.IsNullOrEmpty(dialogueLine.informationToCheckFor))//Checks for information if there is something in the string
+            {
+                Information info = dialogueLine.AddComponent<Information>();
+                info.SetInformationType(true); //true = getInformation, false = setInformation
+                info.SetInformation(dialogueLine.informationToCheckFor);
+                info.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+        }
+
+        private void CheckContext(DialogueLine dialogueLine, int player) // Checks if the line should add or read context. Context can only be given to one player with this method
+        {
+            if (string.IsNullOrEmpty(dialogueLine.contextToAdd)) //Adds context if there is something in the string
+            {
+                Context context = dialogueLine.AddComponent<Context>();
+                context.SetContextType(false); //true = getContext, false = setContext
+                context.SetContext(dialogueLine.contextToAdd);
+                context.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+
+            if (string.IsNullOrEmpty(dialogueLine.contextToCheckFor))//Checks for context if there is something in the string
+            {
+                Context context = dialogueLine.AddComponent<Context>();
+                context.SetContextType(true); //true = getContext, false = setContext
+                context.SetContext(dialogueLine.contextToCheckFor);
+                context.SetPlayer(player-1);// 0 = p1, 1 = p2. Player is 1 or 2, so we reduce by one. 
+            }
+        }
+
+        private void CheckInterupt(DialogueLine dialogueLine) // Checks if the line should have an interupt. 
+        {
+            if (!dialogueLine.isInterrupt) return;
+            dialogueLine.AddComponent<Interrupt>();
+
+        } 
+        
+        
 
         public void OnPlayerChoice(int player, int caseIndex, string btnText)
         {
@@ -245,7 +316,7 @@ namespace Dialogue
                 // No! Come on, the thief will get away!
                 case 4:
                     Debug.Log("Case 4");
-
+                    
                     break;
             }
         }

@@ -8,7 +8,7 @@ namespace Dialogue.LineLogicScripts
         private float _timer = 0;
         private float _timerEnd = 5;
         
-        private void Awake()
+        private void Start()
         {
             Initialize();
         }
