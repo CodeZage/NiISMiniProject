@@ -623,13 +623,137 @@ namespace Dialogue
             switch (caseIndex)
             {
                 case 0:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, 1, 1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 3));
                     break;
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 8, 8, 2));
+                    SwapActivePlayerTriangle(player);
                     break;
                 case 2:
                     Debug.Log("Player " + player + " chose option 2"); 
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 6, -1, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 3:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 6, -1, 2));
+                    SwapActivePlayer();
+                    break;
+                case 4:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 1, 1, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 5:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, 3, 3, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 6:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[7], btnText, player, 3, 7, -1, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 7:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 9, 9, 2));
+                    break;
+                case 8:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 8, 8, 2));
+                    break;
+                case 9:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 9, 9, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 10:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
+                    SwapActivePlayer();
+                    StartCoroutine(GoToNewIndex(npcLines.lines[10], btnText, player, 3, 10, -1, 4));
+                    break;
+                case 11:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[11], btnText, player, 3, 11, 11, 2));
+                    break;
+                case 12:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[13], btnText, player, 3, -1, -1, 2));
+                    SwapActivePlayerTriangle(player);
+                    StartCoroutine(GoToNewIndex(npcLines.lines[14], btnText, player, 3, 14, -1, 5));
+                    break;
+                case 13:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 2, 2, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 15:
+                    // COP LINE: NPC = 4 for right image
+                    ChangeScene();
+                    StartCoroutine(GoToNewIndex(npcLines.lines[15], btnText, player, 4, 15, -1, 2));
+                    break;
+                case 16:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, 19, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[13], btnText, player, 3, -1, -1, 4));
+                    break;
+                case 17:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[16], btnText, player, 3, -1, 16, 2));
+                    break;
+                case 19:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[17], btnText, player, 3, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(
+                        "And so the criminal was finally captured and justice was put forth. Another successful case closed by the SYN CORP cops. Thanks for playing!",
+                        btnText, player, 0, 5, 3));
+                    break;
+                case 21:
+                    // COP
+                    StartCoroutine(GoToNewIndex(npcLines.lines[18], btnText, player, 4, -1, -1, 2));
+                    
+                    // CRIMINAL
+                    StartCoroutine(GoToNewIndex(npcLines.lines[12], btnText, player, 3, 12, 12, 5));
+                    break;
+                case 22:
+                    // COP
+                    StartCoroutine(GoToNewIndex(npcLines.lines[18], btnText, player, 4, -1, -1, 2));
+                    SwapActivePlayer();
+                    // CRIMINAL
+                    StartCoroutine(GoToNewIndex(npcLines.lines[12], btnText, player, 3, 12, 12, 5));
+                    break;
+                
+                case 23:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(
+                        "And so the criminal was finally captured and justice was put forth. Another succesful case closed by the SYN CORP cops. Thanks for playing!",
+                        btnText, player, 0, 5, 3));
+                    break;
+                case 24:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(
+                        "And so the criminal was finally captured and justice was put forth. Another succesful case closed by the SYN CORP cops. Thanks for playing!",
+                        btnText, player, 0, 5, 3));
+                    break;
+                case 25:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[17], btnText, player, 3, -1, -1, 2));
+                    break;
+                case 26:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(
+                        "And so the criminal was finally captured and justice was put forth. Another succesful case closed by the SYN CORP cops. Thanks for playing!",
+                        btnText, player, 0, 5, 3));
+                    break;
+                case 27:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[5], btnText, player, 3, 5, -1, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 28:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 6, -1, 2));
+                    break;
+                case 29:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 6, -1, 2));
+                    SwapActivePlayer();
+                    break;
+                case 30:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[4], btnText, player, 3, 4, 4, 5));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                case 33:
+                    // COP
+                    StartCoroutine(GoToNewIndex(npcLines.lines[18], btnText, player, 4, -1, -1, 2));
+                    SwapActivePlayer();
+                    // CRIMINAL
+                    StartCoroutine(GoToNewIndex(npcLines.lines[12], btnText, player, 3, 12, 12, 5));
                     break;
             }
         }
