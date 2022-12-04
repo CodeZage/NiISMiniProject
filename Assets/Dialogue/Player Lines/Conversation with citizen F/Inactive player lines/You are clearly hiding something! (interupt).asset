@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: You are clearly hiding something! (interupt)
   m_EditorClassIdentifier: 
   targetIndex: 13
-  lineText: 'You are clearly hiding something! '
+  lineText: '!! You are clearly hiding something! !!'
   informationToCheckFor: 
   informationToAdd: 
   contextToCheckFor: 
