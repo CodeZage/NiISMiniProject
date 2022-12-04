@@ -714,13 +714,13 @@ namespace Dialogue
                 case 23:
                     StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
                     StartCoroutine(FinishConversationWithInfo(
-                        "And so the criminal was finally captured and justice was put forth. Another succesful case closed by the SYN CORP cops. Thanks for playing!",
+                        "And so the criminal was finally captured and justice was put forth. Another successful case closed by the SYN CORP cops. Thanks for playing!",
                         btnText, player, 0, 5, 3));
                     break;
                 case 24:
                     StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
                     StartCoroutine(FinishConversationWithInfo(
-                        "And so the criminal was finally captured and justice was put forth. Another succesful case closed by the SYN CORP cops. Thanks for playing!",
+                        "And so the criminal was finally captured and justice was put forth. Another successful case closed by the SYN CORP cops. Thanks for playing!",
                         btnText, player, 0, 5, 3));
                     break;
                 case 25:
@@ -729,7 +729,7 @@ namespace Dialogue
                 case 26:
                     StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, -1, 2));
                     StartCoroutine(FinishConversationWithInfo(
-                        "And so the criminal was finally captured and justice was put forth. Another succesful case closed by the SYN CORP cops. Thanks for playing!",
+                        "And so the criminal was finally captured and justice was put forth. Another successful case closed by the SYN CORP cops. Thanks for playing!",
                         btnText, player, 0, 5, 3));
                     break;
                 case 27:
