@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Yeah man, no need to be rude! (Interupt)
   m_EditorClassIdentifier: 
+  targetIndex: 10
   lineText: 'Yeah man, no need to be rude! '
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 1
   isComment: 0

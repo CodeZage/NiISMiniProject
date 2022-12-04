@@ -384,7 +384,7 @@ namespace Dialogue
         {
             switch (caseIndex)
             {
-                // Start of conversation
+                // Start of conversation: Hello there! How can I help you?
                 case 0:
                     ChangeScene();
                     StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 1));
@@ -398,7 +398,9 @@ namespace Dialogue
                 
                 // Don't play innocent, fool! Someone just ran through your store, did they not? (Bad Cop)
                 case 2:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, -1, 2, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, -1, 6));
+
                     break;
 
                 // What did the person look like?
@@ -436,6 +438,13 @@ namespace Dialogue
                     SwapActivePlayer();
                     StartCoroutine(GoToNewIndex(npcLines.lines[7], btnText, player, 3, 2, -1, 2));
                     break;
+                
+                // Yeah man, no need to be rude!
+                case 10:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, -1, 3, -1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, -1, 4));
+                    break;
+                
             }
         }
         
