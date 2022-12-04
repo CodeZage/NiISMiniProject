@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: No, I didn't. I just wanted to clear my name. But good thing the cops came
     by.
   m_EditorClassIdentifier: 
+  targetIndex: 32
   lineText: No, I didn't. I just wanted to clear my name. But good thing the cops
     came by.
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

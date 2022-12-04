@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: No, I think you will like to hear this one. It's the kind of offer you
     can't refuse.
   m_EditorClassIdentifier: 
+  targetIndex: 27
   lineText: 'No, I think you will like to hear this one. It''s the kind of offer
     you can''t refuse. '
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

@@ -12,4 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cea1f5b2608ef04dbe481576c612a9a, type: 3}
   m_Name: (4) Climax
   m_EditorClassIdentifier: 
-  lines: []
+  lines:
+  - No, I'm not interested in whatever you are selling. Please leave.
+  - '"Boot lady"? Why are you calling me that?'
+  - What do you mean?
+  - 'How do you know my name? Who sent you!? '
+  - 'Wow, okay. You guys are weird. What do you want? '
+  - 'I''m in kind of a hurry here, so no I don''t think so. '
+  - 'I''m not going to give you anything! You have no proof!''  *starts to leave* '
+  - No!
+  - What? Look, I don't like whatever game you are playing. I'm leaving.
+  - Okay, okay. Just please don't take my arm!
+  - This is ridiculous. But allright! What is the price?
+  - Sounds fair. Then get ready.  3, 2, 1...
+  - No! You tricked me!
+  - 'Aw dang it! Oh well, you won fair and square. Here, take it. '
+  - '*Hands over the XY-72 drone*'
+  - '*Cop enters*  The XY-72 drone! Hand it over, criminal!'
+  - I don't know what they are talking about! I'm just a regular citizen.
+  - 'Thank you for clearing that up. Come with me, criminal. '
+  - '*Cop enters* The XY-72 drone! Hand it over, criminal!'

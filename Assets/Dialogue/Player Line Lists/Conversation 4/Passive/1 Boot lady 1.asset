@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a490ccaf5b445f2abf9b0305e04a4de, type: 3}
+  m_Name: 1 Boot lady 1
+  m_EditorClassIdentifier: 
+  dialogueLines:
+  - {fileID: 11400000, guid: 038f048fd9c7282488ff1bda929911a8, type: 2}
+  - {fileID: 11400000, guid: 9425af737c57d88418bfcff0e11d94db, type: 2}

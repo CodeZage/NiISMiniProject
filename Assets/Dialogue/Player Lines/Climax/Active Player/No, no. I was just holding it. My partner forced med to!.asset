@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: No, no. I was just holding it. My partner forced med to!
   m_EditorClassIdentifier: 
+  targetIndex: 16
   lineText: No, no. I was just holding it. My partner forced med to!
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

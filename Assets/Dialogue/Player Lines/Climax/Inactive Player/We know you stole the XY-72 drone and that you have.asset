@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: We know you stole the XY-72 drone and that you have
   m_EditorClassIdentifier: 
+  targetIndex: 29
   lineText: We know you stole the XY-72 drone and that you have your secret hide
     out around here!
-  targetIndex: 0
+  informationToCheckFor: Gender
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

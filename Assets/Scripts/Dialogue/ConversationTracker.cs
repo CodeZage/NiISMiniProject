@@ -537,6 +537,8 @@ namespace Dialogue
                 // Well, actually we are not sure about the gender + boots
                 case 8:
                     StartCoroutine(GoToNewIndex(npcLines.lines[16], btnText, -1, 3, -1, -1, 2));
+                    ConversationStorage.Instance.AddInformation("Boot", 1);
+                    ConversationStorage.Instance.AddInformation("Boot", 2);
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
                         btnText, player, 0, 5, 1.5f));
@@ -627,7 +629,7 @@ namespace Dialogue
                     Debug.Log("Player " + player + " chose option 1");
                     break;
                 case 2:
-                    Debug.Log("Player " + player + " chose option 2");
+                    Debug.Log("Player " + player + " chose option 2"); 
                     break;
             }
         }

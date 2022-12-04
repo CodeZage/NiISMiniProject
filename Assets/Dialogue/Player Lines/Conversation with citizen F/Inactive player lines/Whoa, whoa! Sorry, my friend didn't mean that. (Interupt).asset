@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Whoa, whoa! Sorry, my friend didn't mean that. (Interupt)
   m_EditorClassIdentifier: 
   targetIndex: 5
-  lineText: 'Whoa, whoa! Sorry, my friend didn''t mean that. '
+  lineText: '!! Whoa, whoa! Sorry, my friend didn''t mean that. !!'
   informationToCheckFor: 
   informationToAdd: 
   contextToCheckFor: 

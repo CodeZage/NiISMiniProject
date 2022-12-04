@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetIndex: 7
   lineText: 'Good, so which direction  did he run? '
-  informationToCheckFor: Footprints
+  informationToCheckFor: Man
   informationToAdd: 
   contextToCheckFor: 
   contextToAdd: 

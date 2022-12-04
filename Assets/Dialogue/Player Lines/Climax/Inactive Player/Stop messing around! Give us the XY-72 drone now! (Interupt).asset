@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Stop messing around! Give us the XY-72 drone now! (Interupt)
   m_EditorClassIdentifier: 
+  targetIndex: 33
   lineText: Stop messing around! Give us the XY-72 drone now!
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 1
   isComment: 0

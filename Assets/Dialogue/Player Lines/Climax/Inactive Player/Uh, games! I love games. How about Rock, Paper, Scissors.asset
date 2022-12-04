@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Uh, games! I love games. How about Rock, Paper, Scissors
   m_EditorClassIdentifier: 
+  targetIndex: 10
   lineText: Uh, games! I love games. How about Rock, Paper, Scissors?
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

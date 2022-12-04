@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: We know all sorts of things about you, Sheila. (Gender information based)
   m_EditorClassIdentifier: 
+  targetIndex: 5
   lineText: We know all sorts of things about you, Sheila. Especially about that
     item you stole.
-  targetIndex: 0
+  informationToCheckFor: Gender
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

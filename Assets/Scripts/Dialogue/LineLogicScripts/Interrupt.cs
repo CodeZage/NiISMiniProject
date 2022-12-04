@@ -6,7 +6,7 @@ namespace Dialogue.LineLogicScripts
     public class Interrupt : MonoBehaviour
     {
         private float _timer = 0;
-        private const float TimerEnd = 5;
+        private const float TimerEnd = 2;
 
         private void Start()
         {
