@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a490ccaf5b445f2abf9b0305e04a4de, type: 3}
   m_Name: 3 Me nope Im just a good old (NO)
   m_EditorClassIdentifier: 
-  dialogueLines: []
+  dialogueLines:
+  - {fileID: 0}

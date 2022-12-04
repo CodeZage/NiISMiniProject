@@ -71,6 +71,8 @@ namespace Dialogue
 
         private CameraMove _cameraMove;
 
+        private bool ChangeSceneHasHappened = false;
+
         #endregion
 
         #region Unity Event Functions
@@ -93,8 +95,16 @@ namespace Dialogue
 
         public void NextInfo()
         {
-            if (_sequenceTracker <
-                infoSequence.Length) // if the info dialogue is done, change the state to player action
+            if(ChangeSceneHasHappened == false)
+            {
+                ChangeScene();
+                ChangeSceneHasHappened = true;
+            }
+                
+
+
+                if (_sequenceTracker <
+                    infoSequence.Length) // if the info dialogue is done, change the state to player action
                 GoToNewInfoLine(infoSequence[_sequenceTracker]);
             else
                 InfoOver();
@@ -149,7 +159,6 @@ namespace Dialogue
         private void GoToNewInfoLine(string npcLine)
         {
             ChangeTopText(npcLine);
-
             _sequenceTracker += 1;
             nextButton.SetActive(true);
         }
@@ -163,6 +172,24 @@ namespace Dialogue
                 _ => 1
             };
 
+            Debug.Log("Swapped active player to " + _activePlayer);
+        }
+        
+        private void SwapActivePlayerTriangle(int player)
+        {
+            if (player == _activePlayer)
+            {
+                return;
+            }
+            else
+            {
+                _activePlayer = _activePlayer switch
+                {
+                    1 => 2,
+                    2 => 1,
+                    _ => 1
+                };
+            }
             Debug.Log("Swapped active player to " + _activePlayer);
         }
 
@@ -183,12 +210,15 @@ namespace Dialogue
                     HomelessConversation(1, 0, "");
                     break;
                 case EConversation.CitizenF:
+                    ChangeSceneHasHappened = true;
                     HomelessConversation(1, 0, "");
                     break;
                 case EConversation.CitizenE:
+                    ChangeSceneHasHappened = true;
                     HomelessConversation(1, 0, "");
                     break;
                 case EConversation.Cop:
+                    ChangeSceneHasHappened = true;
                     HomelessConversation(1, 0, "");
                     break;
             }
@@ -456,19 +486,133 @@ namespace Dialogue
             {
                 // Conversation start
                 case 0:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 1, 1, 1));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 1));
                     break;
                 
                 // We are here to find the criminal + we are looking for a criminal
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
-                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 2, 2, 2));
-
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 1, 1, 2));
+                    SwapActivePlayer();
                     break;
+                
+                // You seem awfully nervous
                 case 2:
                     Debug.Log("Player " + player + " chose option 2");
-                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 2, 2, 2));
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, -1, 3, -1, 0)); // might need to change the wait value
+                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, 3, 3, 4));
+                    
                     break;
+                
+                // That's just what a person who is hiding something would say! BAD COP!
+                case 3:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 2, 2, 2));
+                    // adds the Bad Cop context to the player who said the Bad Cop line :)
+                    ConversationStorage.Instance.AddContext("BadCop", player);
+                    SwapActivePlayerTriangle(player);
+                    break;
+                
+                // Look, you are really starting to get on my nerves. BAD COP
+                case 4:
+                    // interrupt from other player
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, -1, -1, 15, 0)); 
+                    
+                    // normal NPC dialogue
+                    StartCoroutine(GoToNewIndex(npcLines.lines[13], btnText, player, 3, 13, 13, 4));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                
+                // Whoa, whoa!
+                case 5:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[10], btnText, player, 3, 10, -1, 2));
+                    SwapActivePlayer();
+                    break;
+                
+                // Good, so which direction did he run
+                case 7:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[14], btnText, player, 3, 14, -1, 2));
+                    SwapActivePlayerTriangle(player);
+                    break;
+                
+                // Well, actually we are not sure about the gender + boots
+                case 8:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[16], btnText, -1, 3, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(
+                        "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
+                        btnText, player, 0, 5, 1.5f));
+                    break;
+                
+                // Well, actually gender - boots
+                case 9:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[16], btnText, -1, 3, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo(
+                        "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
+                        btnText, player, 0, 5, 1.5f));
+                    break;
+                
+                // So you do know the person
+                case 10:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[11], btnText, player, 3, 11, 11, 2));
+                    break;
+                
+                // Where is she now
+                case 11:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[15], btnText, -1, 3, -1, -1, 2));
+                    SwapActivePlayerTriangle(player);
+                    StartCoroutine(FinishConversationWithInfo(
+                        "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
+                        btnText, player, 0, 5, 1.5f));
+                    break;
+                
+                // Used to be?
+                case 12:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[12], btnText, player, 3, 12, 12, 2));
+                    break;
+                
+                // Interrupt: You are clearly hiding something!
+                case 13:
+                    SwapActivePlayer();
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, -1, 18, -1, 2));
+                    break;
+                
+                // Where were you
+                case 14:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[4], btnText, player, 3, 4, 4, 2));
+                    break;
+                
+                // Of course it runs by itself
+                case 15:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[5], btnText, player, 3, 5, 5, 2));
+                    SwapActivePlayer();
+                    break;
+                
+                // Look, I'm sorry
+                case 16:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 6, 6, 2));
+                    break;
+                
+                // Please?
+                case 17:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 8, -1, 2));
+                    break;
+                
+                // You heard me
+                case 18:
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, -1, -1, 16, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 9, -1, 4));
+                    break;
+                
+                // No, of course
+                case 20:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[7], btnText, player, 3, 7, -1, 2));
+                    SwapActivePlayer();
+                    break;
+                
+                // Do you know
+                case 21:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[11], btnText, player, 3, 11, 11, 2));
+                    break;
+
             }
         }
 
