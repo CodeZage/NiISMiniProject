@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: You can help us find out who stole
   m_EditorClassIdentifier: 
+  targetIndex: 1
   lineText: 'You can help US find out who stole the XY-72 drone. We heard that you
     have seen the criminal. '
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

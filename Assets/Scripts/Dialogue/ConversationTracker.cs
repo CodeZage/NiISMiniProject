@@ -241,6 +241,7 @@ namespace Dialogue
             nextConversation.gameObject.SetActive(true);
             nextConversation.enabled = true;
             nextConversation.BeginConversation(nextConversation.currentConversation);
+            ChangeScene();
             Destroy(gameObject);
         }
         
@@ -374,7 +375,7 @@ namespace Dialogue
                 // No, we have to hurry up if we want to catch the thief.
                 case 5:
                     StartCoroutine(FinishConversationWithInfo(
-                        "The suspects proceed to the shop on the other side of the street...",
+                        "The suspects proceed to the shop further down the street...",
                         btnText, player, 0, 2, 1.5f));
                     break;
             }
@@ -386,14 +387,13 @@ namespace Dialogue
             {
                 // Start of conversation: Hello there! How can I help you?
                 case 0:
-                    ChangeScene();
                     StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 1));
                     break;
                 
                 // We are here to find out who stole the XY-72 drone. We have heard that you have seen the criminal. 
                 // You can help US find out who stole the XY-72 drone. We heard that you have seen the criminal. 
                 case 1:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, 4, 2));
                     break;
                 
                 // Don't play innocent, fool! Someone just ran through your store, did they not? (Bad Cop)
@@ -405,7 +405,7 @@ namespace Dialogue
 
                 // What did the person look like?
                 case 3:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, 3, 2));
                     break;
                 
                 // Did the person cary an item?
@@ -420,7 +420,7 @@ namespace Dialogue
                 
                 // Were there anything distinct about the person's look?
                 case 6:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 1, 3, 2));
                     break;
 
                 // BAD COP: This is not helping!! You better start talking! (Bad Cop)
@@ -430,21 +430,23 @@ namespace Dialogue
                 
                 // Which direction did the person go?
                 case 8:
-                    StartCoroutine(FinishConversationWithInfo(npcLines.lines[9], btnText, player, 3, 2, 3));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo("After getting directions from the shop owner, the two suspects hurried in the given direction.", btnText, player, 0, 4, 8));
                     break; 
                 
                 // So it was a man?
                 case 9:
                     SwapActivePlayer();
+                    StartCoroutine(GoToNewIndex(npcLines.lines[7], btnText, player, 3, -1, -1, 2));
                     StartCoroutine(GoToNewIndex(npcLines.lines[7], btnText, player, 3, 2, -1, 2));
                     break;
                 
                 // Yeah man, no need to be rude!
                 case 10:
                     StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, -1, 3, -1, -1, 2));
-                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, -1, 4));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, -1, 4));
                     break;
-                
+
             }
         }
         
@@ -452,15 +454,20 @@ namespace Dialogue
         {
             switch (caseIndex)
             {
-                // Start: Uh, hello. Welcome to my shop! What can I get you?
+                // Conversation start
                 case 0:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[0], btnText, player, 3, 1, 1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 1, 1, 1));
                     break;
+                
+                // We are here to find the criminal + we are looking for a criminal
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 2, 2, 2));
+
                     break;
                 case 2:
                     Debug.Log("Player " + player + " chose option 2");
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, 2, 2, 2));
                     break;
             }
         }

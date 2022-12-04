@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Did the person wear boots (Information)
   m_EditorClassIdentifier: 
+  targetIndex: 5
   lineText: Did the person wear boots?
-  targetIndex: 0
+  informationToCheckFor: Footprints
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

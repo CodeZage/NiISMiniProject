@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Look, you are really  starting to get on my nerves. (Context)
   m_EditorClassIdentifier: 
+  targetIndex: 0
   lineText: 'Look, you are really  starting to get on my nerves.  If you don''t tell
     me what you know right now, you might not even have a store to open tomorrow! '
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: BadCop
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

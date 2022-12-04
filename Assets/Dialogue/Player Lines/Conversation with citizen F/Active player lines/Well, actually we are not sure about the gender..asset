@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Well, actually we are not sure about the gender.
   m_EditorClassIdentifier: 
+  targetIndex: 9
   lineText: Well, actually we are not sure about the gender. Did she run by recently
     with an XY-72 drone"?
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

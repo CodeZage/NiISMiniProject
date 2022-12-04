@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: You heard me. And you are avoiding my friend's questions. Clearly you know
     more than you've
   m_EditorClassIdentifier: 
+  targetIndex: 18
   lineText: 'You heard me. And you are avoiding my friend''s questions. Clearly you
     know more than you''ve told us so far. '
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

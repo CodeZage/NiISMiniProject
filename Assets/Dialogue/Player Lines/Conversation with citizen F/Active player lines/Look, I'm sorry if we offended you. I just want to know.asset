@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: Look, I'm sorry if we offended you. I just want to know
   m_EditorClassIdentifier: 
+  targetIndex: 16
   lineText: Look, I'm sorry if we offended you. I just want to know if you have seen
     anyone run by with the XY-72 drone?
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0

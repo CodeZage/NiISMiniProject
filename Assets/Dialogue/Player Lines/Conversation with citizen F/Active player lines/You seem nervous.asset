@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
   m_Name: You seem nervous
   m_EditorClassIdentifier: 
+  targetIndex: 2
   lineText: 'You seem awfully nervous. I was just asking if you had seen anyone run
     by. '
-  targetIndex: 0
+  informationToCheckFor: 
+  informationToAdd: 
+  contextToCheckFor: 
+  contextToAdd: 
+  isInterrupt: 0
   isComment: 0
