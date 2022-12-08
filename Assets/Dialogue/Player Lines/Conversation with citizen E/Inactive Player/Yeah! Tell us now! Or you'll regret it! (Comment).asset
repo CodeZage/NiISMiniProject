@@ -19,4 +19,4 @@ MonoBehaviour:
   contextToCheckFor: 
   contextToAdd: 
   isInterrupt: 0
-  isComment: 1
+  isComment: 0

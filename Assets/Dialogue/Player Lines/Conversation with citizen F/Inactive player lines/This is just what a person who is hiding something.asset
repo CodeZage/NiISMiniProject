@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: This is just what a person who is hiding something
   m_EditorClassIdentifier: 
   targetIndex: 3
-  lineText: That's just what a person who is hiding something would say! (bad cop)
+  lineText: That's just what a person who is hiding something would say!
   informationToCheckFor: 
   informationToAdd: 
   contextToCheckFor: 

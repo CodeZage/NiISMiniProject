@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: I did not get a good look at him! It all happened so fast
   m_EditorClassIdentifier: 
   dialogueLines:
-  - {fileID: 11400000, guid: 80296420800d8f442889ea84278bb559, type: 2}
   - {fileID: 11400000, guid: 9fb7e2090e8c7734cb2984b58679dcfa, type: 2}

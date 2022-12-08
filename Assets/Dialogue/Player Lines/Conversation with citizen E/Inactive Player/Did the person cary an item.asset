@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Did the person cary an item
   m_EditorClassIdentifier: 
   targetIndex: 4
-  lineText: Did the person cary an item?
+  lineText: Did the person carry an item?
   informationToCheckFor: 
   informationToAdd: 
   contextToCheckFor: 

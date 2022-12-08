@@ -398,7 +398,7 @@ namespace Dialogue
                 case 4:
                     StartCoroutine(FinishConversationWithInfo(
                         "As they start to inspect the mud-puddle, the two suspects discovers footprints from a pair of heavy boots. This information may be relevant in their further search for the criminal.",
-                        btnText, player, 0, 2, 7));
+                        btnText, player, 0, 4, 5));
                     ConversationStorage.Instance.AddInformation("Footprints", 1);
                     ConversationStorage.Instance.AddInformation("Footprints", 2);
                     break;
@@ -407,7 +407,7 @@ namespace Dialogue
                 case 5:
                     StartCoroutine(FinishConversationWithInfo(
                         "The suspects proceed to the shop further down the street...",
-                        btnText, player, 0, 2, 1.5f));
+                        btnText, player, 0, 4, 3f));
                     break;
             }
         }
@@ -439,12 +439,12 @@ namespace Dialogue
 
                 // What did the person look like?
                 case 3:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, 3, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, 6, 2));
                     break;
                 
                 // Did the person carry an item?
                 case 4:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[5], btnText, player, 3, 1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[5], btnText, player, 3, 3, 3, 2));
                     break;
 
                 // Did the person wear boots?
@@ -495,8 +495,6 @@ namespace Dialogue
                 case 16:
                     StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 1, 3, 2));
                     break;
-
- 
             }
         }
         
@@ -561,7 +559,7 @@ namespace Dialogue
                     ConversationStorage.Instance.AddInformation("Boot", 2);
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
-                        btnText, player, 0, 5, 1.5f));
+                        btnText, player, 0, 5, 3f));
                     break;
                 
                 // Well, actually gender - boots
@@ -569,7 +567,7 @@ namespace Dialogue
                     StartCoroutine(GoToNewIndex(npcLines.lines[16], btnText, -1, 3, -1, -1, 2));
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
-                        btnText, player, 0, 5, 1.5f));
+                        btnText, player, 0, 5, 3f));
                     break;
                 
                 // So you do know the person
@@ -583,7 +581,7 @@ namespace Dialogue
                     SwapActivePlayerTriangle(player);
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
-                        btnText, player, 0, 5, 1.5f));
+                        btnText, player, 0, 5, 3f));
                     break;
                 
                 // Used to be?
@@ -621,6 +619,10 @@ namespace Dialogue
                 // You heard me
                 case 18:
                     StartCoroutine(GoToNewIndex(btnText, btnText, player, -1, -1, 16, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 9, -1, 4));
+                    break;
+                
+                case 19:
                     StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, 9, -1, 4));
                     break;
                 
