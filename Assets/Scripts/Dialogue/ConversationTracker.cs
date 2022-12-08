@@ -287,7 +287,6 @@ namespace Dialogue
             yield return new WaitForSeconds(wait);
 
             if (npc != -1) SwapImage(npc);
-            if(npc == 69) SwapImage(2);
 
             ChangeTopText(npcLine);
 
@@ -645,7 +644,7 @@ namespace Dialogue
             switch (caseIndex)
             {
                 case 0:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[0], npcLines.lines[0], -1, 3, 0, 0, 3));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[0], btnText, player, 3, 0, 0, 3));
                     break;
                 case 1:
                     Debug.Log("Player " + player + " chose option 1");
@@ -719,6 +718,7 @@ namespace Dialogue
                         btnText, player, 0, 5, 3));
                     break;
                 case 21:
+                    ChangeScene();
                     // COP
                     StartCoroutine(GoToNewIndex(npcLines.lines[18], btnText, player, 4, -1, -1, 2));
                     
@@ -726,6 +726,7 @@ namespace Dialogue
                     StartCoroutine(GoToNewIndex(npcLines.lines[12], btnText, player, 3, 12, 12, 5));
                     break;
                 case 22:
+                    ChangeScene();
                     // COP
                     StartCoroutine(GoToNewIndex(npcLines.lines[18], btnText, player, 4, -1, -1, 2));
                     SwapActivePlayer();
@@ -771,6 +772,7 @@ namespace Dialogue
                     SwapActivePlayerTriangle(player);
                     break;
                 case 33:
+                    ChangeScene();
                     // COP
                     StartCoroutine(GoToNewIndex(npcLines.lines[18], btnText, player, 4, -1, -1, 2));
                     SwapActivePlayer();
