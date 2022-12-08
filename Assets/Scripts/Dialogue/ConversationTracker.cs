@@ -287,6 +287,7 @@ namespace Dialogue
             yield return new WaitForSeconds(wait);
 
             if (npc != -1) SwapImage(npc);
+            if(npc == 69) SwapImage(2);
 
             ChangeTopText(npcLine);
 
@@ -397,7 +398,7 @@ namespace Dialogue
                 case 4:
                     StartCoroutine(FinishConversationWithInfo(
                         "As they start to inspect the mud-puddle, the two suspects discovers footprints from a pair of heavy boots. This information may be relevant in their further search for the criminal.",
-                        btnText, player, 0, 2, 5));
+                        btnText, player, 0, 2, 7));
                     ConversationStorage.Instance.AddInformation("Footprints", 1);
                     ConversationStorage.Instance.AddInformation("Footprints", 2);
                     break;
@@ -428,8 +429,11 @@ namespace Dialogue
                 
                 // Don't play innocent, fool! Someone just ran through your store, did they not? (Bad Cop)
                 case 2:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, -1, 2, 2));
-                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, -1, 6));
+                    // No need to be rude
+                    
+                    StartCoroutine(GoToNewIndex(btnText, btnText, player, player, -1, 5, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, -1, 2, 5));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, 4, 8));
 
                     break;
 
@@ -438,7 +442,7 @@ namespace Dialogue
                     StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, 3, 2));
                     break;
                 
-                // Did the person cary an item?
+                // Did the person carry an item?
                 case 4:
                     StartCoroutine(GoToNewIndex(npcLines.lines[5], btnText, player, 3, 1, -1, 2));
                     break;
@@ -473,10 +477,26 @@ namespace Dialogue
                 
                 // Yeah man, no need to be rude!
                 case 10:
-                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, -1, 3, -1, -1, 2));
-                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, -1, 4));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[3], btnText, player, 3, -1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[6], btnText, player, 3, 2, -1, 5));
+                    break;
+                
+                case 13:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[9], btnText, player, 3, -1, -1, 2));
+                    StartCoroutine(FinishConversationWithInfo("After getting directions from the shop owner, the two suspects hurried in the given direction.", btnText, player, 0, 4, 8));
+                    break;
+                
+                case 15:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[1], btnText, player, 3, -1, -1, 2));
+                    StartCoroutine(GoToNewIndex(npcLines.lines[2], btnText, player, 3, 1, 4, 5));
+
+                    break;
+                
+                case 16:
+                    StartCoroutine(GoToNewIndex(npcLines.lines[8], btnText, player, 3, 1, 3, 2));
                     break;
 
+ 
             }
         }
         
