@@ -558,7 +558,7 @@ namespace Dialogue
                     ConversationStorage.Instance.AddInformation("Boot", 2);
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
-                        btnText, player, 0, 5, 3f));
+                        btnText, player, 0, 6, 3f));
                     break;
                 
                 // Well, actually gender - boots
@@ -566,7 +566,7 @@ namespace Dialogue
                     StartCoroutine(GoToNewIndex(npcLines.lines[16], btnText, -1, 3, -1, -1, 2));
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
-                        btnText, player, 0, 5, 3f));
+                        btnText, player, 0, 6, 3f));
                     break;
                 
                 // So you do know the person
@@ -580,7 +580,7 @@ namespace Dialogue
                     SwapActivePlayerTriangle(player);
                     StartCoroutine(FinishConversationWithInfo(
                         "The two suspects hurry to the plaza in front of the SYN CORP head quarters.",
-                        btnText, player, 0, 5, 3f));
+                        btnText, player, 0, 6, 3f));
                     break;
                 
                 // Used to be?
