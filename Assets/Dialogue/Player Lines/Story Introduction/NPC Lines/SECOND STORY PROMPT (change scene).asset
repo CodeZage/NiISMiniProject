@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdd94db64a6bd94ead763162490b80d, type: 3}
+  m_Name: SECOND STORY PROMPT (change scene)
+  m_EditorClassIdentifier: 
+  lineText: ' After running away from the crime scene, the two suspects stops to
+    catch their breath.  How were they going to prove that they didn''t steal the
+    XY-72 drone?   By the sidewalk sits a homeless man. The two suspects agrees to
+    ask if he has seen anything that could help them clear their name and catch the
+    true criminal.  '
+  targetIndex: 0
+  isComment: 0
