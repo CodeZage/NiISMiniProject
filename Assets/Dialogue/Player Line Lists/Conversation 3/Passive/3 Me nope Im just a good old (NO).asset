@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 3 Me nope Im just a good old (NO)
   m_EditorClassIdentifier: 
   dialogueLines:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1e61ae94fcb7cc14d964cd3abbb86914, type: 2}

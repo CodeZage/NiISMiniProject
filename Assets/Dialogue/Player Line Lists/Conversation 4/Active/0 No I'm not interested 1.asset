@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLines:
   - {fileID: 11400000, guid: 4ec7020309482a540a0350367894e194, type: 2}
-  - {fileID: 11400000, guid: 1586ace8d87596343a0b2615090fd2b0, type: 2}
   - {fileID: 11400000, guid: 7635c0805ba8585438e684eb6d6af82c, type: 2}
+  - {fileID: 11400000, guid: 1586ace8d87596343a0b2615090fd2b0, type: 2}
